@@ -39,5 +39,6 @@ collections:
       - {label: "Draft", name: "draft", widget: "boolean", default: true, hint: "草稿不会 build"}
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Featured Image", name: "cover", widget: "image", required: false, hint: "封面图片"}
+      - {label: "分类", name: "categories", widget: "list", required: false}
       - {label: "Tags", name: "tags", widget: "list", required: false, "文章标签，用半角逗号分隔"}
       - {label: "Body", name: "body", widget: "markdown", hint: "博客正文"}
