@@ -4,9 +4,6 @@ backend:
   branch: main # Branch to update
   base_url: https://stack-umber.vercel.app
   
-media_folder: "site/static/img" # Folder where user uploaded files should go
-public_folder: "img"
-
  # when using the default proxy server port
  # Run npx netlify-cms-proxy-server from the root dir of the repo
 local_backend: true
