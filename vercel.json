@@ -3,8 +3,6 @@
     { "source": "/auth", "destination": "/api/auth.ts" },
     { "source": "/callback", "destination": "/api/callback.ts" }
   ],
-  "github": {
-    "silent": true
   "build": {
         "env": {
             "HUGO_VERSION": "0.119.0"
