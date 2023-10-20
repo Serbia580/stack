@@ -34,7 +34,7 @@ collections:
       - {label: "分类", name: "categories", widget: "list", required: false}
       - {label: "关键词", name: "keywords", widget: "list", required: false}
       - {label: "摘要", name: "excerpt", widget: "string", required: false}
-      - {label: "Slug", name: "slug", widget: "string", required: false, hint:
+      - {label: "Slug", name: "slug", widget: "string", required: false}
       - {label: "评论", name: "comments", widget: "boolean", default: true, required: false}
       - {label: "内容", name: "body", widget: "markdown", required: false}
 
