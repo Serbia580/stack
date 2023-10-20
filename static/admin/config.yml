@@ -7,101 +7,44 @@ backend:
 media_folder: "site/static/img" # Folder where user uploaded files should go
 public_folder: "img"
 
-collections: # A list of collections the CMS should be able to edit
-  - name: "post" # Used in routes, ie.: /admin/collections/:slug/edit
-    label: "Post" # Used in the UI, ie.: "New Post"
-    folder: "site/content/post" # The path to the folder where the documents are stored
+ # when using the default proxy server port
+ # Run npx netlify-cms-proxy-server from the root dir of the repo
+local_backend: true
+
+# 编辑工作流程
+publish_mode: editorial_workflow
+
+
+# 全局静态文件上传目录
+media_folder: "static/img/uploads" # Media files will be stored in the repo under images/uploads
+public_folder: "/img/uploads" # The src attribute for uploaded media will begin with /images/uploads
+
+media_folder_relative: true
+
+
+collections:
+  - name: "post" # Used in routes, e.g., /admin/collections/blog
+    label: "Post" # Used in the UI
+    folder: "content/post" # The path to the folder where the documents are stored
+    path: '{{slug}}/index' # beta feature
+    media_folder: ''
+    public_folder: ''
+    # adding a nested object will show the collection folder structure
+    nested:
+      depth: 100 # max depth to show in the collection tree
+      summary: '{{title}}' # optional summary for a tree node, defaults to the inferred title field
+    # adding a meta object with a path property allows editing the path of entries
+    # moving an existing entry will move the entire sub tree of the entry to the new location
+    meta: { path: { widget: string, label: 'Path', index_file: 'index', hint: 'markdown文件路径, 对于page bundle, 如 "一级目录/二级目录/page-bundle目录/index.md", 只需要填写 "一级目录/二级目录/page-bundle目录",不
+要忘记填写page-bundle目录' } }
     create: true # Allow users to create new documents in this collection
-    fields: # The fields each document in this collection have
-      - {label: "Title", name: "title", widget: "string"}
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document, usually in front matter
+      - {label: "Title", name: "title", widget: "string", hint: "文章标题"}
+      - {label: "Slug", name: "slug", widget: "string", required: false, hint: "Slug可以是目录,如 linux/archlinux, 此项会作为路径的功能可能会被 path meta 覆盖"}
+      - {label: "Comments", name: "comments", widget: "boolean", default: true, hint: "true 允许评论, false 禁止评论"}
+      - {label: "Draft", name: "draft", widget: "boolean", default: true, hint: "草稿不会 build"}
       - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Intro Blurb", name: "description", widget: "text"}
-      - {label: "Image", name: "image", widget: "image", required: false}
-      - {label: "Body", name: "body", widget: "markdown"}
-  - name: "pages"
-    label: "Pages"
-    files:
-      - file: "site/content/_index.md"
-        label: "Home Page"
-        name: "home"
-        fields:
-          - {label: Title, name: title, widget: string}
-          - {label: Subtitle, name: subtitle, widget: string}
-          - {label: Image, name: image, widget: image}
-          - {label: "Blurb", name: blurb, widget: object, fields: [
-              {label: "Heading", name: "heading", widget: string},
-              {label: "Text", name: "text", widget: "text"}]}
-          - {label: "Intro", name: intro, widget: object, fields: [
-              {label: "Heading", name: "heading", widget: string},
-              {label: "Text", name: "text", widget: "text"}]}
-          - {label: "Products", name: products, widget: list, fields: [
-              {label: "Image", name: "image", widget: "image"},
-              {label: "Text", name: "text", widget: "text"}]}
-          - {label: "Values", name: "values", widget: "object", fields: [
-              {label: "Heading", name: "heading", widget: string},
-              {label: "Text", name: "text", widget: "text"}]}
-      - file: "site/content/contact/_index.md"
-        label: "Contact Page"
-        name: "contact"
-        fields:
-          - {label: Title, name: title, widget: string}
-          - {label: Logo, name: logo, widget: image}
-          - {label: Body, name: body, widget: markdown}
-          - label: Contact Entries
-            name: contact_entries
-            widget: list
-            fields:
-              - label: Heading
-                name: heading
-                widget: string
-              - label: Text
-                name: text
-                widget: text
-      - file: "site/content/products/_index.md"
-        label: "Products Page"
-        name: "products"
-        fields:
-          - {label: Title, name: title, widget: string}
-          - {label: Image, name: image, widget: image}
-          - {label: Intro, name: intro, widget: object, fields: [{label: Heading, name: heading, widget: string}, {label: Description, name: description, widget: text}, {label: Blurbs, name: blurbs, widget: list, fields: [{label: Image, name: image, widget: image}, {label: Text, name: text, widget: text}]}]}
-          - {label: Main, name: main, widget: object, fields: [{label: Heading, name: heading, widget: string}, {label: Description, name: description, widget: text}, {label: Image1, name: image1, widget: object, fields: [{label: Image, name: image, widget: image}, {label: Alt, name: alt, widget: string}]}, {label: Image2, name: image2, widget: object, fields: [{label: Image, name: image, widget: image}, {label: Alt, name: alt, widget: string}]}, {label: Image3, name: image3, widget: object, fields: [{label: Image, name: image, widget: image}, {label: Alt, name: alt, widget: string}]}]}
-          - {label: Testimonials, name: testimonials, widget: list, fields: [{label: Quote, name: quote, widget: string}, {label: Author, name: author, widget: string}]}
-          - {label: Full_image, name: full_image, widget: image}
-          - {label: Pricing, name: pricing, widget: object, fields: [{label: Heading, name: heading, widget: string}, {label: Description, name: description, widget: string}, {label: Plans, name: plans, widget: list, fields: [{label: Plan, name: plan, widget: string}, {label: Price, name: price, widget: string}, {label: Description, name: description, widget: string}, {label: Items, name: items, widget: list}]}]}
-      - file: "site/content/values/_index.md"
-        label: "Values Page"
-        name: "values"
-        fields:
-          - {label: Title, name: title, widget: string}
-          - {label: Image, name: image, widget: image}
-          - label: Values
-            name: values
-            widget: list
-            fields:
-              - {label: Heading, name: heading, widget: string}
-              - {label: Text, name: text, widget: text}
-              - {label: Image, name: imageUrl, widget: image}
-  - name: "site_settings"
-    label: "Site Settings"
-    files:
-      - file: "site/data/footer.json"
-        label: Footer
-        name: footer
-        fields:
-          - {label: Title, name: title, widget: string}
-          - {label: Blurb, name: blurb, widget: text}
-      - file: "site/config.toml"
-        label: Hugo Config
-        name: config
-        editor:
-          preview: false
-        fields:
-          - {label: Site Title for Browser Tab, name: title, widget: string}
-          - label: Params
-            name: params
-            widget: object
-            fields:
-              - label: Open Graph Image
-                name: images
-                widget: list
-                field: { label: Image, name: image, widget: image }
+      - {label: "Featured Image", name: "cover", widget: "image", required: false, hint: "封面图片"}
+      - {label: "Tags", name: "tags", widget: "list", required: false, "文章标签，用半角逗号分隔"}
+      - {label: "Body", name: "body", widget: "markdown", hint: "博客正文"}
