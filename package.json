@@ -1,5 +1,15 @@
 {
+  "name": "@adrianub/cms",
+  "author": "Adrián UB",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
   "dependencies": {
+    "simple-oauth2": "~5.0.0"
     "decap-cms-app": "^3.0.10"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.0",
+    "@types/simple-oauth2": "^5.0.2"
   }
 }
