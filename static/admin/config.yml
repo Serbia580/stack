@@ -14,32 +14,39 @@ local_backend: true
 # 编辑工作流程
 publish_mode: editorial_workflow
 
+# This line should *not* be indented
+media_folder: "static/images/uploads" # 媒体文件将存储在图片/上载下的Repo中。
+public_folder: "/images/uploads" # 上传的媒体的src属性将以/images/uploads开头。
 
-collections:
-  - name: "post" # Used in routes, e.g., /admin/collections/blog
-    label: "Post" # Used in the UI
-    folder: "content/post" # The path to the folder where the documents are stored
-    path: '{{slug}}/index' # beta feature
-    media_folder: ''
-    public_folder: ''
-    # adding a nested object will show the collection folder structure
-    nested:
-      depth: 100 # max depth to show in the collection tree
-      summary: '{{title}}' # optional summary for a tree node, defaults to the inferred title field
-    # adding a meta object with a path property allows editing the path of entries
-    # moving an existing entry will move the entire sub tree of the entry to the new location
-    meta: { path: { widget: string, label: 'Path', index_file: 'index', hint: 'markdown文件路径, 对于page bundle, 如 "一级目录/二级目录/page-bundle目录/index.md", 只需要填写 "一级目录/二级目录/page-bundle目录",不
-要忘记填写page-bundle目录' } }
-    create: true # Allow users to create new documents in this collection
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
-    fields: # The fields for each document, usually in front matter
-      - {label: "标题", name: "title", widget: "string", hint: "文章标题"}
-      - {label: "摘要", name: "excerpt", widget: "list", required: false, hint: "文章摘要"}
-      - {label: "Slug", name: "slug", widget: "string", required: false, hint: "Slug可以是目录,如 linux/archlinux, 此项会作为路径的功能可能会被 path meta 覆盖"}
-      - {label: "评论", name: "comments", widget: "boolean", default: true, hint: "true 允许评论, false 禁止评论"}
-      - {label: "草稿", name: "draft", widget: "boolean", default: true, hint: "草稿不会 build"}
-      - {label: "发布日期", name: "date", widget: "datetime"}
-      - {label: "封面图片", name: "cover", widget: "image", required: false, hint: "封面图片"}
-      - {label: "分类", name: "categories", widget: "list", required: false, "文章分类，用半角逗号分隔"}
-      - {label: "标签", name: "tags", widget: "list", required: false, "文章标签，用半角逗号分隔"}
-      - {label: "博客正文", name: "body", widget: "markdown", hint: "博客正文"}
+locale: "zh_Hans" # 语言环境 https://github.com/netlify/netlify-cms/tree/master/packages/netlify-cms-locales/src
+
+collections:      # https://www.netlifycms.org/docs/configuration-options/#collections
+  - name: "post" # 在路由中使用，例如：/admin/collections/blog。
+    label: "Post" # 在用户界面中使用
+    folder: ""content/post" # 存储文件的文件夹的路径。
+    create: true # 允许用户在这个集合中创建新的文件。
+    fields: # 每份文件的字段，通常是前面的内容。
+      - {label: "顶部图", name: "banner_img", widget: "image", required: false} 
+      - {label: "文章封面", name: "index_img", widget: "image", required: false} 
+      - {label: "文章排序", name: "sticky", widget: "number", required: false, hint: "数值越大，该文章越靠前"}
+      - {label: "标题", name: "title", widget: "string" }
+      - {label: "发布日期", name: "date", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss", dateFormat: "YYYY-MM-DD", timeFormat: "HH:mm:ss", required: false}
+      - {label: "更新日期", name: "updated", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss", dateFormat: "YYYY-MM-DD", timeFormat: "HH:mm:ss", required: false}
+      - {label: "标签", name: "tags", widget: "list", required: false}
+      - {label: "分类", name: "categories", widget: "list", required: false}
+      - {label: "关键词", name: "keywords", widget: "list", required: false}
+      - {label: "摘要", name: "excerpt", widget: "string", required: false}
+      - {label: "永久链接", name: "permalink", widget: "string", required: false}
+      - {label: "评论", name: "comments", widget: "boolean", default: true, required: false}
+      - {label: "内容", name: "body", widget: "markdown", required: false}
+
+  - name: "page"
+    label: "Page"
+    files:
+      - file: "content/page/about/index.md"
+        name: "about"
+        label: "关于"
+        fields:
+          - {label: "标题", name: "title", widget: "string"}
+          - {label: "内容", name: "body", widget: "markdown", required: false}
+          - {label: "评论", name: "comments", widget: "boolean", default: true, required: false}
