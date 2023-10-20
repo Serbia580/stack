@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
-  branch: main # Branch to update (optional; defaults to master)
+  name: github
+  repo: Serbia580/stack # Path to your Github/Gitlab repository
+  branch: main # Branch to update
+  base_url: https://stack-umber.vercel.app
+  
 media_folder: static/img
 public_folder: /img
 collections:
