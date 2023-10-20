@@ -6,7 +6,6 @@
   "private": true,
   "dependencies": {
     "simple-oauth2": "~5.0.0"
-    "decap-cms-app": "^3.0.10"
   },
   "devDependencies": {
     "@types/node": "^18.14.0",
