@@ -3,6 +3,15 @@
     {{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
     {{ $filtered := ($pages | intersect $notHidden) }}
     {{ $pag := .Paginate ($filtered) }}
+<!-- 首页欢迎字幅 -->
+<div class="welcome">
+  <p style="font-size: 2rem; text-align: center; font-weight: bold">
+    <span class="shake">👋</span>
+    <span class="jump-text1" > 欢迎来到</span>
+    <span class="jump-text3" style="color:#e99312">塞尔维亚移民互助网</span>
+	<A href="https://ouzhou8.eu.org/shop" target=_blank><font color="#F50B2B">中国超市网上商城</A>
+</div>
+<!-- 首页欢迎字幅 -->
 
     <section class="article-list">
         {{ range $index, $element := $pag.Pages }}
